@@ -2,10 +2,14 @@
 """
 Functions for handling encoding of web pages
 """
-import re, codecs, encodings
+import codecs
+import encodings
+import re
 from sys import version_info
 
+
 _HEADER_ENCODING_RE = re.compile(r'charset=([\w-]+)', re.I)
+
 
 def http_content_type_encoding(content_type):
     """Extract the encoding in the content-type header

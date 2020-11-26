@@ -2,10 +2,16 @@
 
 import unittest
 from collections import OrderedDict
-from w3lib.http import (basic_auth_header,
-                        headers_dict_to_raw, headers_raw_to_dict)
 
-__doctests__ = ['w3lib.http'] # for trial support
+from w3lib.http import (
+    basic_auth_header,
+    headers_dict_to_raw,
+    headers_raw_to_dict,
+)
+
+
+__doctests__ = ['w3lib.http']  # for trial support
+
 
 class HttpTests(unittest.TestCase):
 
@@ -30,7 +36,7 @@ class HttpTests(unittest.TestCase):
     def test_headers_raw_to_dict(self):
         raw = b"Content-type: text/html\n\rAccept: gzip\n\r\
                 Cache-Control: no-cache\n\rCache-Control: no-store\n\n"
-        dct = {b'Content-type': [b'text/html'], b'Accept': [b'gzip'], 
+        dct = {b'Content-type': [b'text/html'], b'Accept': [b'gzip'],
                b'Cache-Control': [b'no-cache', b'no-store']}
         self.assertEqual(headers_raw_to_dict(raw), dct)
 

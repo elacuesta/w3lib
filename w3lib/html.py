@@ -5,16 +5,18 @@ Functions for dealing with markup text
 
 import warnings
 import re
+
 import six
 from six import moves
 
-from w3lib.util import to_bytes, to_unicode
+from w3lib.util import to_unicode
 from w3lib.url import safe_url_string
+
 
 _ent_re = re.compile(r'&((?P<named>[a-z\d]+)|#(?P<dec>\d+)|#x(?P<hex>[a-f\d]+))(?P<semicolon>;?)', re.IGNORECASE)
 _tag_re = re.compile(r'<[a-zA-Z\/!].*?>', re.DOTALL)
-_baseurl_re = re.compile(six.u(r'<base\s[^>]*href\s*=\s*[\"\']\s*([^\"\'\s]+)\s*[\"\']'), re.I)
-_meta_refresh_re = re.compile(six.u(r'<meta\s[^>]*http-equiv[^>]*refresh[^>]*content\s*=\s*(?P<quote>["\'])(?P<int>(\d*\.)?\d+)\s*;\s*url=\s*(?P<url>.*?)(?P=quote)'), re.DOTALL | re.IGNORECASE)
+_baseurl_re = re.compile(r'<base\s[^>]*href\s*=\s*[\"\']\s*([^\"\'\s]+)\s*[\"\']', re.I)
+_meta_refresh_re = re.compile(r'<meta\s[^>]*http-equiv[^>]*refresh[^>]*content\s*=\s*(?P<quote>["\'])(?P<int>(\d*\.)?\d+)\s*;\s*url=\s*(?P<url>.*?)(?P=quote)', re.DOTALL | re.IGNORECASE)
 _cdata_re = re.compile(r'((?P<cdata_s><!\[CDATA\[)(?P<cdata_d>.*?)(?P<cdata_e>\]\]>))', re.DOTALL)
 
 HTML5_WHITESPACE = ' \t\n\r\x0c'
@@ -265,7 +267,7 @@ def unquote_markup(text, keep=(), remove_illegal=True, encoding=None):
     text = to_unicode(text, encoding)
     ret_text = u''
     for fragment in _get_fragments(text, _cdata_re):
-        if isinstance(fragment, six.string_types):
+        if isinstance(fragment, str):
             # it's not a CDATA (so we try to remove its entities)
             ret_text += replace_entities(fragment, keep=keep, remove_illegal=remove_illegal)
         else:
@@ -301,8 +303,6 @@ def get_meta_refresh(text, baseurl='', encoding='utf-8', ignore_tags=('script', 
 
     """
 
-    if six.PY2:
-        baseurl = to_bytes(baseurl, encoding)
     try:
         text = to_unicode(text, encoding)
     except UnicodeDecodeError:

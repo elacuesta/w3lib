@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
-import warnings
 import unittest
+import warnings
 from collections import OrderedDict
+
 from w3lib.form import encode_multipart
 
 

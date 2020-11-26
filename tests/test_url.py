@@ -2,11 +2,24 @@
 from __future__ import absolute_import
 import os
 import unittest
-from w3lib.url import (is_url, safe_url_string, safe_download_url,
-    url_query_parameter, add_or_replace_parameter, url_query_cleaner,
-    file_uri_to_path, parse_data_uri, path_to_file_uri, any_to_uri,
-    urljoin_rfc, canonicalize_url, parse_url, add_or_replace_parameters)
-from six.moves.urllib.parse import urlparse
+from urllib.parse import urlparse
+
+from w3lib.url import (
+    add_or_replace_parameter,
+    add_or_replace_parameters,
+    any_to_uri,
+    canonicalize_url,
+    file_uri_to_path,
+    is_url,
+    parse_data_uri,
+    parse_url,
+    path_to_file_uri,
+    safe_download_url,
+    safe_url_string,
+    url_query_cleaner,
+    url_query_parameter,
+    urljoin_rfc,
+)
 
 
 class UrlTests(unittest.TestCase):
@@ -76,17 +89,17 @@ class UrlTests(unittest.TestCase):
     def test_safe_url_string_unsafe_chars(self):
         safeurl = safe_url_string(r"http://localhost:8001/unwise{,},|,\,^,[,],`?|=[]&[]=|")
         self.assertEqual(safeurl, r"http://localhost:8001/unwise%7B,%7D,|,%5C,%5E,[,],%60?|=[]&[]=|")
-        
+
     def test_safe_url_string_quote_path(self):
         safeurl = safe_url_string(u'http://google.com/"hello"', quote_path=True)
         self.assertEqual(safeurl, u'http://google.com/%22hello%22')
-        
+
         safeurl = safe_url_string(u'http://google.com/"hello"', quote_path=False)
         self.assertEqual(safeurl, u'http://google.com/"hello"')
-        
+
         safeurl = safe_url_string(u'http://google.com/"hello"')
         self.assertEqual(safeurl, u'http://google.com/%22hello%22')
-        
+
 
     def test_safe_url_string_with_query(self):
         safeurl = safe_url_string(u"http://www.example.com/£?unit=µ")
@@ -741,4 +754,3 @@ class DataURITests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
